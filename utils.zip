@@ -1,0 +1,96 @@
+  const mongoose = require("mongoose");
+
+  const taskSubmissionSchema = new mongoose.Schema(
+    {
+      studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+        index: true
+      },
+
+      taskId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Task",
+        required: true,
+        index: true
+      },
+      studentName: {
+        type: String,
+        required: true
+      },
+
+      studentCollege: {
+        type: String,
+        required: true
+      },
+
+      studentBatch: {
+        type: String,
+        required: true
+      },
+
+      studentYear: {
+        type: Number,
+        required: true
+      },
+
+      taskName: {
+        type: String,
+        required: true
+      },
+
+      taskDescription: {
+        type: String
+      },
+      taskStatus: {
+        type: String,
+        enum: ["assigned", "started", "completed"],
+        default: "assigned",
+        index: true
+      },
+
+      startedOn: {
+        type: Date
+      },
+
+      completedOn: {
+        type: Date
+      },
+
+      timeTakenToCompete: {
+        type: Number,
+        default: 0
+      },
+
+      isBreached: {
+        type: Boolean,
+        default: false,
+        index: true
+      },
+
+      proof: [
+        {
+          url: {
+            type: String,
+            required: true
+          },
+
+          uploadedAt: {
+            type: Date,
+            default: Date.now
+          }
+        }
+      ]
+    },
+    {
+      timestamps: true
+    }
+  );
+
+  taskSubmissionSchema.index(
+    { studentId: 1, taskId: 1 },
+    { unique: true }
+  );
+
+  module.exports = mongoose.model("TaskSubmission", taskSubmissionSchema);

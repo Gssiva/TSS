@@ -1,0 +1,26 @@
+// models/saveCode.model.js
+const mongoose = require("mongoose");
+
+const saveCodeSchema = new mongoose.Schema(
+  {
+    code: { type: String, required: true },
+    title: { type: String, required: true },
+
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true
+    },
+
+    studentName: { type: String, required: true },
+    studentClg: { type: String, required: true },
+    studentYear: { type: Number, required: true },
+    studentBatch: { type: String, required: true },
+
+    submittedOn: { type: Date, default: Date.now }
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("SavedCode", saveCodeSchema);
